@@ -11,9 +11,6 @@ namespace NumberGenerator.Logic
     {
         #region Properties
 
-        private int NumbersOfHits { get; set; }
-
-
         /// <summary>
         /// Enthält die untere Schranke (inkl.)
         /// </summary>
@@ -40,6 +37,16 @@ namespace NumberGenerator.Logic
 
         public RangeObserver(IObservable numberGenerator, int numberOfHitsToWaitFor, int lowerRange, int upperRange) : base(numberGenerator, int.MaxValue)
         {
+            if (numberOfHitsToWaitFor <= 0)
+            {
+                throw new ArgumentException($"Argument {nameof(numberOfHitsToWaitFor)} ist <= 0!");
+            }
+
+            if (lowerRange > upperRange)
+            {
+                throw new ArgumentException($"Argument {nameof(lowerRange)} ist größer als Argument {nameof(upperRange)}");
+            }
+            
             NumbersOfHitsToWaitFor = numberOfHitsToWaitFor;
             LowerRange = lowerRange;
             UpperRange = upperRange;
@@ -51,20 +58,30 @@ namespace NumberGenerator.Logic
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{base.ToString()} => ");
+            sb.Append($"{nameof(RangeObserver)} ");
+            sb.Append($"[{nameof(LowerRange)}='{LowerRange}', ");
+            sb.Append($"{nameof(UpperRange)}='{UpperRange}', ");
+            sb.Append($"{nameof(NumbersInRange)}='{NumbersInRange}', ");
+            sb.Append($"{nameof(NumbersOfHitsToWaitFor)}='{NumbersOfHitsToWaitFor}']");
+
+            return sb.ToString();
         }
 
         public override void OnNextNumber(int number)
         {
             if (number >= LowerRange && number <= UpperRange)
             {
-                NumbersOfHits++;
+                NumbersInRange++;
             }
 
-            if (NumbersOfHits >= NumbersOfHitsToWaitFor)
+            if (NumbersInRange >= NumbersOfHitsToWaitFor)
             {
                 base.DetachFromNumberGenerator();
             }
+
+            base.OnNextNumber(number);
         }
 
         #endregion

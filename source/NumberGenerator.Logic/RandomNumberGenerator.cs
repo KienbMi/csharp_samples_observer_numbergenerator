@@ -112,10 +112,15 @@ namespace NumberGenerator.Logic
         /// <param name="number">Die generierte Zahl.</param>
         public void NotifyObservers(int number)
         {
-            foreach (var observer in _observers)
+            for (int i = 0; i < _observers.Count; i++)
             {
-                observer.OnNextNumber(newNumber);
+                _observers[i].OnNextNumber(newNumber);
             }
+            
+            //foreach (var observer in _observers)
+            //{
+            //    observer.OnNextNumber(newNumber);
+            //}
         }
 
         #endregion
@@ -143,6 +148,7 @@ namespace NumberGenerator.Logic
             {
                 newNumber = _random.Next(RANDOM_MIN_VALUE, RANDOM_MAX_VALUE);
                 NotifyObservers(newNumber);
+                Task.Delay(_delay).Wait();
             }
         }
 

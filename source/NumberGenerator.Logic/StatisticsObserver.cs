@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace NumberGenerator.Logic
 {
@@ -8,7 +9,6 @@ namespace NumberGenerator.Logic
     public class StatisticsObserver : BaseObserver
     {
         #region Fields
-        private int _counter = 0;
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace NumberGenerator.Logic
         /// <summary>
         /// Enthält das Maximum der generierten Zahlen.
         /// </summary>
-        public int Max { get; private set; } = int.MinValue;
+        public int Max { get; private set; }
 
         /// <summary>
         /// Enthält die Summe der generierten Zahlen.
@@ -49,12 +49,25 @@ namespace NumberGenerator.Logic
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            //  => StatisticsObserver [Min='1', Max='999', Sum='2486436', Avg='497']
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{base.ToString()} => ");
+            sb.Append($"{nameof(StatisticsObserver)} ");
+            sb.Append($"[{nameof(Min)}='{Min}', ");
+            sb.Append($"{nameof(Max)}='{Max}', ");
+            sb.Append($"{nameof(Sum)}='{Sum}', ");
+            sb.Append($"{nameof(Avg)}='{Avg}']");
+
+            return sb.ToString();
         }
 
         public override void OnNextNumber(int number)
         {
-            _counter++;
+            if (base.CountOfNumbersReceived == 0)
+            {
+                Min = number;
+                Max = number;
+            }
 
             if (number < Min)
                 Min = number;
@@ -62,9 +75,9 @@ namespace NumberGenerator.Logic
                 Max = number;
 
             Sum += number;
+            Avg = Sum / (base.CountOfNumbersReceived + 1);
 
-            Avg = Sum / _counter;
-            
+            base.OnNextNumber(number);
         }
 
         #endregion

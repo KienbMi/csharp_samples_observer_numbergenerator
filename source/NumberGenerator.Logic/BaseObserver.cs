@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Text;
 
 namespace NumberGenerator.Logic
 {
@@ -28,12 +29,13 @@ namespace NumberGenerator.Logic
         {
             if (countOfNumbersToWaitFor <= 0)
             {
-                //throw new ArgumentException("countOfNumbersToWaitFor darfnicht null sein");
+                throw new ArgumentException($"Argument {nameof(countOfNumbersToWaitFor)} ist kleiner <= 0!");
             }
-            
-            
+
             _numberGenerator = numberGenerator;
             CountOfNumbersToWaitFor = countOfNumbersToWaitFor;
+
+            _numberGenerator.Attach(this);
         }
 
         #endregion
@@ -65,7 +67,13 @@ namespace NumberGenerator.Logic
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            //BaseObserver[CountOfNumbersReceived = '5000', CountOfNumbersToWaitFor = '5000']
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"{nameof(BaseObserver)} ");
+            sb.Append($"[{nameof(CountOfNumbersReceived)}='{CountOfNumbersReceived}', ");
+            sb.Append($"{nameof(CountOfNumbersToWaitFor)}='{CountOfNumbersToWaitFor}']");
+
+            return sb.ToString();
         }
 
         protected void DetachFromNumberGenerator()
