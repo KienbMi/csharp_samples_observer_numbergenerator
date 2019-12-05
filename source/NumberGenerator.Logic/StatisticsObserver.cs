@@ -22,7 +22,7 @@ namespace NumberGenerator.Logic
         /// <summary>
         /// Enthält das Maximum der generierten Zahlen.
         /// </summary>
-        public int Max { get; private set; }
+        public int Max { get; private set; } = int.MinValue;
 
         /// <summary>
         /// Enthält die Summe der generierten Zahlen.

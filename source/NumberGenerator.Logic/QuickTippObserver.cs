@@ -36,8 +36,14 @@ namespace NumberGenerator.Logic
 
         public void OnNextNumber(int number)
         {
-            throw new NotImplementedException();
 
+            if (number >= 1 && number <= 45)
+            {
+                if (QuickTippNumbers.Contains(number) == false)
+                {
+                    QuickTippNumbers.Add(number);
+                }
+            }
 
             if (QuickTippNumbers.Count >= 6)
             {

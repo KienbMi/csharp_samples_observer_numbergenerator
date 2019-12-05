@@ -11,7 +11,7 @@ namespace NumberGenerator.Logic
     {
         #region Properties
 
-        private int NumberOfHitsToWaitFor { get; set; }
+        private int NumbersOfHits { get; set; }
 
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace NumberGenerator.Logic
 
         public RangeObserver(IObservable numberGenerator, int numberOfHitsToWaitFor, int lowerRange, int upperRange) : base(numberGenerator, int.MaxValue)
         {
-            NumberOfHitsToWaitFor = numberOfHitsToWaitFor;
+            NumbersOfHitsToWaitFor = numberOfHitsToWaitFor;
             LowerRange = lowerRange;
             UpperRange = upperRange;
         }
@@ -56,7 +56,15 @@ namespace NumberGenerator.Logic
 
         public override void OnNextNumber(int number)
         {
-            throw new NotImplementedException();
+            if (number >= LowerRange && number <= UpperRange)
+            {
+                NumbersOfHits++;
+            }
+
+            if (NumbersOfHits >= NumbersOfHitsToWaitFor)
+            {
+                base.DetachFromNumberGenerator();
+            }
         }
 
         #endregion
