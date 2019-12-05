@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NumberGenerator.Logic
@@ -23,6 +24,10 @@ namespace NumberGenerator.Logic
         #endregion
 
         #region Fields
+        private Random _random;
+        private int _delay = 1000;
+        private int newNumber;
+        private IList<IObserver> _observers = new List<IObserver>();
 
 
         #endregion
@@ -34,6 +39,7 @@ namespace NumberGenerator.Logic
         /// </summary>
         public RandomNumberGenerator() : this(DEFAULT_DELAY, DEFAULT_SEED)
         {
+
         }
 
         /// <summary>
@@ -51,6 +57,8 @@ namespace NumberGenerator.Logic
         /// <param name="seed">Enthält die Initialisierung der Zufallszahlengenerierung.</param>
         public RandomNumberGenerator(int delay, int seed)
         {
+            _delay = delay;
+            _random = new Random(seed);
         }
 
         #endregion
@@ -65,7 +73,17 @@ namespace NumberGenerator.Logic
         /// <param name="observer">Der Beobachter, welcher benachricht werden möchte.</param>
         public void Attach(IObserver observer)
         {
-            throw new NotImplementedException();
+            if (observer == null)
+            {
+                throw new ArgumentNullException(nameof(observer));
+            }
+
+            if (_observers.Contains(observer))
+            {
+                throw new InvalidOperationException("Observer is already attached!");
+            }
+
+            _observers.Add(observer);
         }
 
         /// <summary>
@@ -74,7 +92,18 @@ namespace NumberGenerator.Logic
         /// <param name="observer">Der Beobachter, welcher nicht mehr benachrichtigt werden möchte</param>
         public void Detach(IObserver observer)
         {
-            throw new NotImplementedException();
+            if (observer == null)
+            {
+                throw new ArgumentNullException(nameof(observer));
+            }
+
+            if (_observers.Contains(observer) == false)
+            {
+                throw new InvalidOperationException("Observer was not attached!");
+            }
+
+            _observers.Remove(observer);
+ 
         }
 
         /// <summary>
@@ -83,14 +112,24 @@ namespace NumberGenerator.Logic
         /// <param name="number">Die generierte Zahl.</param>
         public void NotifyObservers(int number)
         {
-            throw new NotImplementedException();
+            foreach (var observer in _observers)
+            {
+                observer.OnNextNumber(newNumber);
+            }
         }
 
         #endregion
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+            
+            foreach (var observer in _observers)
+            {
+                sb.AppendLine(observer.ToString());
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -99,7 +138,12 @@ namespace NumberGenerator.Logic
         /// </summary>
         public void StartNumberGeneration()
         {
-            throw new NotImplementedException();
+
+            while (_observers.Count > 0)
+            {
+                newNumber = _random.Next(RANDOM_MIN_VALUE, RANDOM_MAX_VALUE);
+                NotifyObservers(newNumber);
+            }
         }
 
         #endregion

@@ -11,6 +11,9 @@ namespace NumberGenerator.Logic
     {
         #region Properties
 
+        private int NumberOfHitsToWaitFor { get; set; }
+
+
         /// <summary>
         /// Enthält die untere Schranke (inkl.)
         /// </summary>
@@ -37,7 +40,9 @@ namespace NumberGenerator.Logic
 
         public RangeObserver(IObservable numberGenerator, int numberOfHitsToWaitFor, int lowerRange, int upperRange) : base(numberGenerator, int.MaxValue)
         {
-            throw new NotImplementedException();
+            NumberOfHitsToWaitFor = numberOfHitsToWaitFor;
+            LowerRange = lowerRange;
+            UpperRange = upperRange;
         }
 
         #endregion
