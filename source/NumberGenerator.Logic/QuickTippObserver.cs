@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace NumberGenerator.Logic
 {
@@ -28,6 +29,8 @@ namespace NumberGenerator.Logic
         {
             _numberGenerator = numberGenerator;
             QuickTippNumbers = new List<int>();
+
+            _numberGenerator.Attach(this);
         }
 
         #endregion
@@ -36,6 +39,7 @@ namespace NumberGenerator.Logic
 
         public void OnNextNumber(int number)
         {
+            CountOfNumbersReceived++;
 
             if (number >= 1 && number <= 45)
             {
@@ -54,7 +58,17 @@ namespace NumberGenerator.Logic
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+            //sb.Append($"{base.ToString()} => ");
+            sb.Append($"{nameof(QuickTippObserver)} ");
+            sb.Append($"[{nameof(CountOfNumbersReceived)}='{CountOfNumbersReceived}'");
+            for (int i = 0; i < QuickTippNumbers.Count; i++)
+            {
+                sb.Append($", Number_{i+1}='{QuickTippNumbers[i]}'");
+            }
+            sb.Append($"]");
+
+            return sb.ToString();
         }
 
         private void DetachFromNumberGenerator()
