@@ -61,10 +61,10 @@ namespace NumberGenerator.Logic
             StringBuilder sb = new StringBuilder();
             sb.Append($"{base.ToString()} => ");
             sb.Append($"{nameof(RangeObserver)} ");
-            sb.Append($"[{nameof(LowerRange)}='{LowerRange}', ");
-            sb.Append($"{nameof(UpperRange)}='{UpperRange}', ");
-            sb.Append($"{nameof(NumbersInRange)}='{NumbersInRange}', ");
-            sb.Append($"{nameof(NumbersOfHitsToWaitFor)}='{NumbersOfHitsToWaitFor}']");
+            sb.Append($"[{nameof(LowerRange)}='{LowerRange}'");
+            sb.Append($", {nameof(UpperRange)}='{UpperRange}'");
+            sb.Append($", {nameof(NumbersInRange)}='{NumbersInRange}'");
+            sb.Append($", {nameof(NumbersOfHitsToWaitFor)}='{NumbersOfHitsToWaitFor}']");
 
             return sb.ToString();
         }
@@ -76,12 +76,11 @@ namespace NumberGenerator.Logic
                 NumbersInRange++;
             }
 
+            base.OnNextNumber(number);
             if (NumbersInRange >= NumbersOfHitsToWaitFor)
             {
                 base.DetachFromNumberGenerator();
             }
-
-            base.OnNextNumber(number);
         }
 
         #endregion

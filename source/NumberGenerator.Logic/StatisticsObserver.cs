@@ -53,10 +53,10 @@ namespace NumberGenerator.Logic
             StringBuilder sb = new StringBuilder();
             sb.Append($"{base.ToString()} => ");
             sb.Append($"{nameof(StatisticsObserver)} ");
-            sb.Append($"[{nameof(Min)}='{Min}', ");
-            sb.Append($"{nameof(Max)}='{Max}', ");
-            sb.Append($"{nameof(Sum)}='{Sum}', ");
-            sb.Append($"{nameof(Avg)}='{Avg}']");
+            sb.Append($"[{nameof(Min)}='{Min}'");
+            sb.Append($", {nameof(Max)}='{Max}'");
+            sb.Append($", {nameof(Sum)}='{Sum}'");
+            sb.Append($", {nameof(Avg)}='{Avg}']");
 
             return sb.ToString();
         }
