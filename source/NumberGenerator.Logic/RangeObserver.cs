@@ -79,22 +79,10 @@ namespace NumberGenerator.Logic
                 Console.ResetColor();
             }
 
-            if (NumbersInRange >= NumbersOfHitsToWaitFor)
+            if (!detachActive && NumbersInRange >= NumbersOfHitsToWaitFor)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                string typeSpecificText;
-                if (this is QuickTippObserver)
-                {
-                    typeSpecificText = $" Got a full Quick - Tipp";
-                }
-                else
-                {
-                    typeSpecificText = $" Got '{NumbersInRange}' in the configured range";
-                }
-                Console.WriteLine($"   >> {this.GetType().Name}: {typeSpecificText} => I am not interested in new numbers anymore => Detach().");
-                Console.ResetColor();
-
-                base.DetachFromNumberGenerator();
+                detachActive = true;
+                typeSpecificDetachText = $" Got '{NumbersInRange}' in the configured range";
             }
             base.OnNextNumber(number);
         }

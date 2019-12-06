@@ -13,6 +13,8 @@ namespace NumberGenerator.Logic
         #region Fields
 
         private readonly IObservable _numberGenerator;
+        protected string typeSpecificDetachText;
+        protected bool detachActive;
 
         #endregion
 
@@ -53,12 +55,16 @@ namespace NumberGenerator.Logic
             CountOfNumbersReceived++;
 
             // Sobald die Anzahl der max. Beobachtungen (_countOfNumbersToWaitFor) erreicht ist -> Detach()
-            if (CountOfNumbersReceived >= CountOfNumbersToWaitFor)
+            if (!detachActive && CountOfNumbersReceived >= CountOfNumbersToWaitFor)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"   >> {this.GetType().Name}: Received '{CountOfNumbersReceived}' of '{CountOfNumbersToWaitFor}' => I am not interested in new numbers anymore => Detach().");
-                Console.ResetColor();
-                DetachFromNumberGenerator();
+                detachActive = true;
+                string typeSpecificDetachText = $"Received '{CountOfNumbersReceived}' of '{CountOfNumbersToWaitFor}'";
+            }
+
+            if (detachActive)
+            {
+                DetachFromNumberGenerator(typeSpecificDetachText);
+                typeSpecificDetachText = string.Empty;
             }
 
         }
@@ -75,9 +81,13 @@ namespace NumberGenerator.Logic
             return sb.ToString();
         }
 
-        protected void DetachFromNumberGenerator()
+        protected void DetachFromNumberGenerator(string typeSpecificText = "no type specific text")
         {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"   >> {this.GetType().Name}: {typeSpecificText} => I am not interested in new numbers anymore => Detach().");
+            Console.ResetColor();
             _numberGenerator.Detach(this);
+            detachActive = false;
         }
 
         protected virtual string GetBaseInfo()

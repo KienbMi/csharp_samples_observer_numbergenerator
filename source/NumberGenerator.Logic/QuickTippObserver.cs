@@ -41,6 +41,12 @@ namespace NumberGenerator.Logic
                 }
             }
 
+            if (!detachActive && QuickTippNumbers.Count >= 6)
+            {
+                detachActive = true;
+                typeSpecificDetachText = $" Got a full Quick - Tipp";
+            }
+
             base.OnNextNumber(number);
         }
 
