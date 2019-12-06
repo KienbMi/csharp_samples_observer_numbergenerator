@@ -74,13 +74,16 @@ namespace NumberGenerator.Logic
             if (number >= LowerRange && number <= UpperRange)
             {
                 NumbersInRange++;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"   >> {this.GetType().Name}: Number is in range ('{LowerRange}'-'{UpperRange}')!");
+                Console.ResetColor();
             }
 
-            base.OnNextNumber(number);
             if (NumbersInRange >= NumbersOfHitsToWaitFor)
             {
                 base.DetachFromNumberGenerator();
             }
+            base.OnNextNumber(number);
         }
 
         #endregion

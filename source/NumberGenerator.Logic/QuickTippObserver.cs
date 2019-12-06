@@ -43,11 +43,11 @@ namespace NumberGenerator.Logic
                 }
             }
 
-            base.OnNextNumber(number);
             if (QuickTippNumbers.Count >= 6)
             {
                 base.DetachFromNumberGenerator();
             }
+                        base.OnNextNumber(number);
         }
 
         public override string ToString()
