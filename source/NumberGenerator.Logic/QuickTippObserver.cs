@@ -8,7 +8,7 @@ namespace NumberGenerator.Logic
     /// <summary>
     /// Beobachter, welcher auf einen vollständigen Quick-Tipp wartet: 6 unterschiedliche Zahlen zw. 1 und 45.
     /// </summary>
-    public class QuickTippObserver : BaseObserver
+    public class QuickTippObserver : RangeObserver
     {
         #region Fields
 
@@ -22,7 +22,7 @@ namespace NumberGenerator.Logic
 
         #region Constructor
 
-        public QuickTippObserver(IObservable numberGenerator) : base(numberGenerator, int.MaxValue)
+        public QuickTippObserver(IObservable numberGenerator) : base(numberGenerator, 6, 1, 45)
         {
             QuickTippNumbers = new List<int>();
         }
@@ -33,9 +33,7 @@ namespace NumberGenerator.Logic
 
         public override void OnNextNumber(int number)
         {
-            //CountOfNumbersReceived++;
-
-            if (number >= 1 && number <= 45)
+            if (number >= LowerRange && number <= UpperRange)
             {
                 if (QuickTippNumbers.Contains(number) == false)
                 {
@@ -43,11 +41,7 @@ namespace NumberGenerator.Logic
                 }
             }
 
-            if (QuickTippNumbers.Count >= 6)
-            {
-                base.DetachFromNumberGenerator();
-            }
-                        base.OnNextNumber(number);
+            base.OnNextNumber(number);
         }
 
         public override string ToString()
@@ -58,11 +52,28 @@ namespace NumberGenerator.Logic
             sb.Append($"[{nameof(CountOfNumbersReceived)}='{CountOfNumbersReceived}'");
             for (int i = 0; i < QuickTippNumbers.Count; i++)
             {
-                sb.Append($", Number_{i+1}='{QuickTippNumbers[i]}'");
+                sb.Append($", Number_{i + 1}='{QuickTippNumbers[i]}'");
             }
             sb.Append($"]");
 
             return sb.ToString();
+        }
+        public override string GetInfo()
+        {
+            StringBuilder sb = new StringBuilder();
+            QuickTippNumbers.Sort();
+
+            for (int i = 0; i < QuickTippNumbers.Count; i++)
+            {
+                if (i > 0)
+                {
+                    sb.Append(", ");
+                }
+                    
+                sb.Append($"{QuickTippNumbers[i]}");
+            }
+
+            return ($"{base.GetBaseInfo()} ====> Quick-Tipp is {sb.ToString()}");
         }
 
         #endregion

@@ -67,7 +67,6 @@ namespace NumberGenerator.Logic
 
         public override string ToString()
         {
-            //BaseObserver[CountOfNumbersReceived = '5000', CountOfNumbersToWaitFor = '5000']
             StringBuilder sb = new StringBuilder();
             sb.Append($"{nameof(BaseObserver)} ");
             sb.Append($"[{nameof(CountOfNumbersReceived)}='{CountOfNumbersReceived}', ");
@@ -79,6 +78,17 @@ namespace NumberGenerator.Logic
         protected void DetachFromNumberGenerator()
         {
             _numberGenerator.Detach(this);
+        }
+
+        protected virtual string GetBaseInfo()
+        {
+            return ($" >> {this.GetType().Name + ':',-20} Received {CountOfNumbersReceived:d5} numbers");
+        }
+
+        
+        public virtual string GetInfo()
+        {
+            return GetBaseInfo();
         }
 
         #endregion

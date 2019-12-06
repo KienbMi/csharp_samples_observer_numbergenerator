@@ -80,6 +80,12 @@ namespace NumberGenerator.Logic
             base.OnNextNumber(number);
         }
 
+        public override string GetInfo()
+        {
+            return ($"{base.GetInfo()} ====> {nameof(Min)}='{Min}', {nameof(Max)}='{Max}, {nameof(Sum)}='{Sum}, {nameof(Avg)}='{Avg}");
+        }
+
+
         #endregion
     }
 }

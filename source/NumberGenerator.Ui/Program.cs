@@ -22,8 +22,9 @@ namespace NumberGenerator.Ui
             // Nummerngenerierung starten
             // Resultat ausgeben
             Console.WriteLine("----------Result------------");
-
-
+            Console.WriteLine(statisticsObserver.GetInfo());
+            Console.WriteLine(rangeObserver.GetInfo());
+            Console.WriteLine(quickTippObserver.GetInfo());
             Console.WriteLine("----------------------------");
             Console.WriteLine("Drücken Sie eine beliebige Taste . . .");
             Console.ReadKey();
