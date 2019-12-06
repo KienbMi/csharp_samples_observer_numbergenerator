@@ -147,6 +147,7 @@ namespace NumberGenerator.Logic
             while (_observers.Count > 0)
             {
                 newNumber = _random.Next(RANDOM_MIN_VALUE, RANDOM_MAX_VALUE);
+                Console.WriteLine($">> {nameof(RandomNumberGenerator)}: Number generated: '{newNumber}'");
                 NotifyObservers(newNumber);
                 Task.Delay(_delay).Wait();
             }

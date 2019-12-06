@@ -17,11 +17,16 @@ namespace NumberGenerator.Ui
             RangeObserver rangeObserver = new RangeObserver(numberGenerator, 5, 200, 300);
             QuickTippObserver quickTippObserver = new QuickTippObserver(numberGenerator);
 
+            numberGenerator.StartNumberGeneration();
 
             // Nummerngenerierung starten
             // Resultat ausgeben
-            throw new NotImplementedException();
+            Console.WriteLine("----------Result------------");
 
+
+            Console.WriteLine("----------------------------");
+            Console.WriteLine("Drücken Sie eine beliebige Taste . . .");
+            Console.ReadKey();
         }
     }
 }
