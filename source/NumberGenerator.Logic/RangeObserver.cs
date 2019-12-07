@@ -81,7 +81,7 @@ namespace NumberGenerator.Logic
 
             if (NumbersInRange >= NumbersOfHitsToWaitFor)
             {
-                DetachFromNumberGenerator(GetTypeSpecificDetachText());
+                DetachFromNumberGenerator();
             }
             base.OnNextNumber(number);
         }

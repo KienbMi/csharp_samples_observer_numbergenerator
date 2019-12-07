@@ -55,7 +55,7 @@ namespace NumberGenerator.Logic
             // Sobald die Anzahl der max. Beobachtungen (_countOfNumbersToWaitFor) erreicht ist -> Detach()
             if (CountOfNumbersReceived >= CountOfNumbersToWaitFor)
             {
-                DetachFromNumberGenerator(GetTypeSpecificDetachText());
+                DetachFromNumberGenerator();
             }
         }
 
@@ -71,10 +71,10 @@ namespace NumberGenerator.Logic
             return sb.ToString();
         }
 
-        protected void DetachFromNumberGenerator(string typeSpecificText = "no type specific text")
+        protected void DetachFromNumberGenerator()
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"   >> {this.GetType().Name}: {typeSpecificText} => I am not interested in new numbers anymore => Detach().");
+            Console.WriteLine($"   >> {this.GetType().Name}: {GetTypeSpecificDetachText()} => I am not interested in new numbers anymore => Detach().");
             Console.ResetColor();
             _numberGenerator.Detach(this);
         }
