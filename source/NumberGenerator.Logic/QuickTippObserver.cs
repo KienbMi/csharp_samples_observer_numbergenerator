@@ -41,12 +41,6 @@ namespace NumberGenerator.Logic
                 }
             }
 
-            if (!detachActive && QuickTippNumbers.Count >= 6)
-            {
-                detachActive = true;
-                typeSpecificDetachText = $" Got a full Quick - Tipp";
-            }
-
             base.OnNextNumber(number);
         }
 
@@ -64,6 +58,12 @@ namespace NumberGenerator.Logic
 
             return sb.ToString();
         }
+
+        protected override string GetTypeSpecificDetachText()
+        {
+            return $"Got a full Quick -Tipp";
+        }
+
         public override string GetInfo()
         {
             StringBuilder sb = new StringBuilder();

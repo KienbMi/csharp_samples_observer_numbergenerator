@@ -79,12 +79,17 @@ namespace NumberGenerator.Logic
                 Console.ResetColor();
             }
 
-            if (!detachActive && NumbersInRange >= NumbersOfHitsToWaitFor)
+            if (NumbersInRange >= NumbersOfHitsToWaitFor)
             {
-                detachActive = true;
-                typeSpecificDetachText = $" Got '{NumbersInRange}' in the configured range";
+                DetachFromNumberGenerator(GetTypeSpecificDetachText());
             }
             base.OnNextNumber(number);
+        }
+
+
+        protected override string GetTypeSpecificDetachText()
+        {
+            return $"Got '{NumbersInRange}' in the configured range";
         }
 
         public override string GetInfo()
